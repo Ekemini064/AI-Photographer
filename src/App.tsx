@@ -34,7 +34,7 @@ const App: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const geminiRef = useRef(new GeminiService());
+  const geminiRef = useRef(new geminiService());
 
   const categories = useMemo(() => {
     const cats = ['All', ...new Set(HEADSHOT_STYLES.map(s => s.category))];
