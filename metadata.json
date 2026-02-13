@@ -1,0 +1,7 @@
+{
+  "name": "Copy of HeadshotAI Professional",
+  "description": "Transform casual selfies into professional, studio-quality headshots using advanced Gemini 2.5 Flash Image technology. Choose from dozens of backgrounds and styles to match your personal brand.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
