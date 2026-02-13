@@ -25,7 +25,13 @@ export const handler: Handler = async (event) => {
       1. Keep the person's facial features, hair color, and basic identity identical to the source.
       2. Place the person in a classic chest-up headshot composition.
       3. Improve the lighting to be flattering "Rembrandt lighting" or studio quality.
-      4. Professional Attire: Dress the person in modern professional business attire (e.g., blazer, suit, or professional blouse).
+      4. Professional Attire: Dress the person in modern professional business attire (e.g., blazer, suit, or professional blouse,
+      tailored two-piece suit, three-piece suit with vest, pencil skirt with silk blouse, button-down shirt with tie,
+      open-collar dress shirt, turtleneck with blazer, formal business dress, smart business jumpsuit,
+      waistcoat and rolled sleeves, corporate polo with slacks, cardigan over a shell top, double-breasted jacket,
+      khakis with sport coat, executive overcoat, formal attire with pocket square, minimalist monochrome suit,
+      business casual sweater and collared shirt, professional attire with company lanyard, tech-startup hoodie with blazer,
+      medical professional lab coat, creative industry smart-casual ensemble).
       5. Resolution: Ultra-high definition, cinematic quality.
       6. Output ONLY the image.
     `;
