@@ -3,7 +3,7 @@
 
 export class GeminiService {
   // URL of the Netlify Function
-  private functionUrl = '.netlify/functions/generateHeadshot';
+  private functionUrl = '/.netlify/functions/generateHeadshot';
 
   /**
    * Generates a professional headshot using the Netlify Function.
