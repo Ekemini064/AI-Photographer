@@ -1,7 +1,7 @@
 // GeminiService.ts
 // Frontend service that calls the Netlify Function for AI headshots
 
-export class GeminiService {
+export class geminiService {
   // URL of the Netlify Function
   private functionUrl = '/.netlify/functions/generateHeadshot';
 
