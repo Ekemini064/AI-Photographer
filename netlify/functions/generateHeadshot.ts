@@ -1,6 +1,6 @@
 import { Handler } from '@netlify/functions';
 import { GoogleGenAI } from '@google/genai';
-import { MODEL_NAME } from '../constants'; // adjust the path if needed
+import { MODEL_NAME } from '../../constants'; // adjust the path if needed
 
 export const handler: Handler = async (event) => {
   try {
