@@ -1,99 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HeadshotAI Professional</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0f172a;
-      color: #f8fafc;
-    }
-    .glass-panel {
-      background: rgba(30, 41, 59, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+    .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
   </style>
-  <script type="importmap">
-  {
-    "imports": {
-      "react": "https://esm.sh/react@^19.2.4",
-      "react-dom": "https://esm.sh/react-dom@^19.2.4"
-    }
-  }
-  </script>
 </head>
 <body>
   <div id="root"></div>
-
-  <script type="module">
-    import React from "react";
-    import ReactDOM from "react-dom";
-
-    function App() {
-      const [image, setImage] = React.useState(null);
-      const [file, setFile] = React.useState(null);
-      const [style, setStyle] = React.useState("classic professional look");
-      const [loading, setLoading] = React.useState(false);
-
-      async function handleGenerate() {
-        if (!file) return alert("Please select an image!");
-        setLoading(true);
-
-        const reader = new FileReader();
-        reader.onload = async () => {
-          const base64 = reader.result.split(",")[1]; // remove "data:image/...;base64,"
-          try {
-            const res = await fetch("/.netlify/functions/generateHeadshot", {
-              method: "POST",
-              body: JSON.stringify({ base64Image: base64, stylePrompt: style })
-            });
-            const data = await res.json();
-            setImage(data.image);
-          } catch (err) {
-            console.error(err);
-            alert("Error generating image. Check console.");
-          } finally {
-            setLoading(false);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-
-      return (
-        <div className="p-8 max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold mb-6">AI Headshot Generator</h1>
-
-          <div className="mb-4">
-            <input type="file" onChange={e => setFile(e.target.files[0])} className="p-2 rounded text-black"/>
-          </div>
-
-          <div className="mb-4">
-            <select value={style} onChange={e => setStyle(e.target.value)} className="p-2 rounded text-black">
-              <option value="classic professional look">Corporate Grey</option>
-              <option value="modern tech office">Modern Tech</option>
-              <option value="futuristic AI lab">Creative Futuristic</option>
-            </select>
-          </div>
-
-          <button onClick={handleGenerate} className="px-6 py-2 bg-blue-600 rounded font-bold">
-            {loading ? "Generating..." : "Generate Headshot"}
-          </button>
-
-          <div className="mt-6">
-            {image && <img src={image} alt="Generated Headshot" className="rounded shadow-lg max-w-full"/>}
-          </div>
-        </div>
-      );
-    }
-
-    ReactDOM.render(<App />, document.getElementById("root"));
-  </script>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
