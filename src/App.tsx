@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { HeadshotStyle, AppState, GeneratedImage } from './types';
 import { HEADSHOT_STYLES } from './constants';
-import { GeminiService } from './services/geminiService';
+import { geminiService } from './services/geminiService';
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>('upload');
