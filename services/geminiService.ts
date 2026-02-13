@@ -1,82 +1,44 @@
-
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
-import { MODEL_NAME } from "../constants";
+// GeminiService.ts
+// Frontend service that calls the Netlify Function for AI headshots
 
 export class GeminiService {
+  // URL of the Netlify Function
+  private functionUrl = '/.netlify/functions/generateHeadshot';
+
   /**
-   * Generates a professional headshot from a base image and style prompt.
+   * Generates a professional headshot using the Netlify Function.
+   * @param base64Image - Base64 encoded source image
+   * @param stylePrompt - Description of the style to apply
+   * @returns Base64 string of generated image
    */
   async generateHeadshot(base64Image: string, stylePrompt: string): Promise<string> {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
-    
-    const prompt = `
-      ACT AS A WORLD-CLASS PROFESSIONAL PHOTOGRAPHER.
-      TASK: Transform the person in the provided photo into a professional high-end corporate headshot.
-      STYLE REQUIREMENTS: ${stylePrompt}.
-      
-      TECHNICAL INSTRUCTIONS:
-      1. Keep the person's facial features, hair color, and basic identity identical to the source.
-      2. Place the person in a classic chest-up headshot composition.
-      3. Improve the lighting to be flattering "Rembrandt lighting" or studio quality.
-      4. Professional Attire: Dress the person in modern professional business attire (e.g., blazer, suit, or professional blouse).
-      5. Resolution: Ultra-high definition, cinematic quality.
-      6. Output ONLY the image.
-    `;
+    try {
+      const response = await fetch(this.functionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ base64Image, stylePrompt }),
+      });
 
-    const response = await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: {
-        parts: [
-          { inlineData: { data: base64Image, mimeType: 'image/png' } },
-          { text: prompt }
-        ]
-      },
-      config: {
-        imageConfig: {
-          aspectRatio: "3:4"
-        }
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Function error: ${text}`);
       }
-    });
 
-    return this.extractImageUrl(response);
+      const data = await response.json();
+      return data.image; // Base64 string for <img>
+    } catch (err) {
+      console.error('Error generating headshot:', err);
+      throw err;
+    }
   }
 
   /**
-   * Edits an existing headshot based on a natural language instruction.
+   * Edits an existing headshot.
+   * Reuses the same function: editInstruction is treated as a style prompt.
    */
   async editHeadshot(base64Image: string, editInstruction: string): Promise<string> {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
-    
-    const prompt = `
-      ACT AS A DIGITAL RETOUCHER.
-      TASK: Apply the following edit to this professional headshot: "${editInstruction}".
-      Maintain the original professional quality, lighting, and facial features. 
-      Only modify what is requested.
-    `;
-
-    const response = await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: {
-        parts: [
-          { inlineData: { data: base64Image, mimeType: 'image/png' } },
-          { text: prompt }
-        ]
-      },
-      config: {
-        imageConfig: {
-          aspectRatio: "3:4"
-        }
-      }
-    });
-
-    return this.extractImageUrl(response);
-  }
-
-  private extractImageUrl(response: GenerateContentResponse): string {
-    const part = response.candidates?.[0]?.content?.parts.find(p => p.inlineData);
-    if (!part?.inlineData) {
-      throw new Error("No image data returned from AI");
-    }
-    return `data:image/png;base64,${part.inlineData.data}`;
+    return this.generateHeadshot(base64Image, editInstruction);
   }
 }
