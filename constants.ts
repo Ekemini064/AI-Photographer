@@ -1,4 +1,7 @@
 
+// src/constants.ts
+export const MODEL_NAME = 'gemini-2.5-flash-image';
+
 import { HeadshotStyle } from './types';
 
 export const HEADSHOT_STYLES: HeadshotStyle[] = [
@@ -66,4 +69,3 @@ export const HEADSHOT_STYLES: HeadshotStyle[] = [
   { id: 'fireplace', name: 'Fireplace Setting', category: 'Studio', prompt: 'cozy luxury interior with a glowing fireplace in the background' }
 ];
 
-export const MODEL_NAME = 'gemini-2.5-flash-image';
